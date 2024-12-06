@@ -23,8 +23,10 @@ describe('Non-cw user forgot password', () => {
             cy.visit(url);
         });
         it('Login to Firecloud', () => {
-            cy.intercept
+            const requestProfile = '/post/get_comment_profiles'
+            cy.intercept(`*p_p_resource_id=${encodeURIComponent(this._name)}*`).as('profileGet')
             cy.url().should('include', 'u/home/dashboard')
+            cy.wait('@profileGet').its('responve.statusCode').should('eq', 200)
         })
 
     });
